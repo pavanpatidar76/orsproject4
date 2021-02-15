@@ -253,6 +253,9 @@ public class StudentCtl extends BaseCtl {
 			} catch (DuplicateRecordsException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Student Email Id already exists", request);
+			}catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
 		}

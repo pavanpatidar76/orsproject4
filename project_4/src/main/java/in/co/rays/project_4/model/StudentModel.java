@@ -56,7 +56,7 @@ public class StudentModel {
 	 * @throws DuplicateRecordsException the duplicate records exception
 	 * @throws ApplicationException the application exception
 	 */
-	public long add(StudentBean bean) throws DuplicateRecordsException, ApplicationException {
+	public long add(StudentBean bean) throws DuplicateRecordsException, ApplicationException, Exception{
 		
 		  log.debug("Model add Started");
 		  // get College Name
@@ -79,6 +79,7 @@ public class StudentModel {
 		Connection conn = null;
 		         System.out.println("<<");
 		try {
+                        conn.setAutoCommit(false);
 			conn = JDBCDataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("insert into st_student value(?,?,?,?,?,?,?,?,?,?,?,?) ");
 			System.out.println("<<<"+bean.getCollegeId()+""+bean.getDob()+""+nextPK());
@@ -111,6 +112,7 @@ public class StudentModel {
             throw new ApplicationException(
                     "Exception : Exception in add Student");
         } finally {
+            conn.commit();
             JDBCDataSource.closeConnection(conn);
         }
         log.debug("Model add End");
