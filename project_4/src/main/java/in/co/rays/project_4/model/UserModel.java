@@ -72,8 +72,9 @@ public class UserModel {
 	 * @return the long
 	 * @throws DuplicateRecordsException the duplicate records exception
 	 * @throws ApplicationException the application exception
+	 * @throws SQLException 
 	 */
-	public long add(UserBean bean) throws DuplicateRecordsException, ApplicationException {
+	public long add(UserBean bean) throws DuplicateRecordsException, ApplicationException, SQLException {
 
 		Connection conn = null;
 		int pk = 0;
@@ -85,6 +86,7 @@ public class UserModel {
         }
 
 		try {
+			conn.setAutoCommit(false);
 			conn = JDBCDataSource.getConnection();
 			pk = nextPK();
 
@@ -124,6 +126,7 @@ public class UserModel {
 	            }
 	            throw new ApplicationException("Exception : Exception in add User");
 		} finally {
+			conn.commit();
 			JDBCDataSource.closeConnection(conn);
 		}
 		log.debug("Model add End");
@@ -664,8 +667,9 @@ public class UserModel {
 	 * @return the long
 	 * @throws ApplicationException the application exception
 	 * @throws DuplicateRecordsException the duplicate records exception
+	 * @throws SQLException 
 	 */
-	public long registerUser(UserBean bean) throws ApplicationException, DuplicateRecordsException {
+	public long registerUser(UserBean bean) throws ApplicationException, DuplicateRecordsException, SQLException {
 		// log.debug("Model add Started");
 
 		long pk = add(bean);

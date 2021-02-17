@@ -1,6 +1,7 @@
 package in.co.rays.project_4.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -273,7 +274,10 @@ public class UserCtl extends BaseCtl {
 				 catch (DuplicateRecordsException e) {
 			      ServletUtility.setBean(bean, request);
 				  ServletUtility.setErrorMessage("Login id already exists", request);
-				  } 
+				  } catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
 		} 
 		else if (OP_DELETE.equalsIgnoreCase(op)) {
 
